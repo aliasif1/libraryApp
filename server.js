@@ -6,6 +6,7 @@ if(process.env.NODE_ENV !== 'production'){
 const express = require('express');
 const app = express();
 const indexRouter = require('./routes/index');
+const authorsRouter = require('./routes/authors');
 
 //set up the database 
 const mongoose = require('mongoose');
@@ -23,8 +24,15 @@ app.set('views', __dirname + '/views');
 app.set('layout','layouts/layout');
 app.use(expressLayouts);
 app.use(express.static('public'));
+
+//accept body and form data
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+
 //hook up the index router 
 app.use('/',indexRouter);
+//hook up the authors router 
+app.use('/authors',authorsRouter);
 
 
 const PORT = process.env.PORT || 3000; 
